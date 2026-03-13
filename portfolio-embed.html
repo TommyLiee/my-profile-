@@ -1,0 +1,387 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');
+
+.ep-portfolio {
+  padding: 100px 40px;
+  background: linear-gradient(180deg, #0a0f1a 0%, #111827 50%, #0a0f1a 100%);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.ep-portfolio * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ep-portfolio-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.ep-portfolio-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 200;
+  color: #ffffff;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: epFadeUp 0.8s ease forwards;
+}
+
+.ep-portfolio-subtitle {
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: epFadeUp 0.8s ease 0.2s forwards;
+}
+
+.ep-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ep-video-card {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transform: translateY(40px);
+  animation: epFadeUp 0.6s ease forwards;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.5s ease,
+              border-color 0.5s ease;
+}
+
+.ep-video-card:nth-child(1) { animation-delay: 0.3s; }
+.ep-video-card:nth-child(2) { animation-delay: 0.45s; }
+.ep-video-card:nth-child(3) { animation-delay: 0.6s; }
+.ep-video-card:nth-child(4) { animation-delay: 0.75s; }
+
+.ep-video-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(147, 197, 253, 0.08);
+  border-color: rgba(147, 197, 253, 0.15);
+}
+
+.ep-video-thumbnail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.4s ease;
+}
+
+.ep-video-card:hover .ep-video-thumbnail {
+  transform: scale(1.05);
+}
+
+.ep-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+.ep-video-card:hover .ep-video-overlay {
+  background: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.ep-play-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: scale(1);
+}
+
+.ep-play-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  margin-left: 3px;
+  transition: transform 0.3s ease;
+}
+
+.ep-video-card:hover .ep-play-btn {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.ep-video-card:hover .ep-play-btn svg {
+  transform: scale(1.1);
+}
+
+/* Vimeo player embedded */
+.ep-video-card iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+}
+
+.ep-video-card.is-playing iframe {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ep-video-card.is-playing .ep-video-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ep-video-card.is-playing .ep-video-thumbnail {
+  opacity: 0;
+}
+
+/* Lightbox / Modal */
+.ep-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.ep-lightbox.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ep-lightbox-content {
+  width: 90vw;
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.ep-lightbox.is-active .ep-lightbox-content {
+  transform: scale(1);
+}
+
+.ep-lightbox-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.ep-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.ep-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ep-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 500px;
+  }
+  .ep-portfolio {
+    padding: 60px 20px;
+  }
+  .ep-portfolio-header {
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ep-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 360px;
+  }
+  .ep-portfolio-title {
+    letter-spacing: 6px;
+  }
+  .ep-portfolio-subtitle {
+    letter-spacing: 2px;
+  }
+  .ep-play-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .ep-play-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@keyframes epFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<div class="ep-portfolio">
+  <div class="ep-portfolio-header">
+    <h2 class="ep-portfolio-title">Portfolio</h2>
+    <p class="ep-portfolio-subtitle">Des vidéos qui marquent les esprits</p>
+  </div>
+
+  <div class="ep-videos-grid">
+
+    <!-- Vidéo 1 -->
+    <div class="ep-video-card" data-vimeo="1049429498">
+      <img class="ep-video-thumbnail" src="https://images.unsplash.com/photo-1536240478700-b869070f9279?w=400&h=711&fit=crop" alt="Video 1" loading="lazy">
+      <div class="ep-video-overlay">
+        <div class="ep-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+      <iframe data-src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+
+    <!-- Vidéo 2 -->
+    <div class="ep-video-card" data-vimeo="1049429498">
+      <img class="ep-video-thumbnail" src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=711&fit=crop" alt="Video 2" loading="lazy">
+      <div class="ep-video-overlay">
+        <div class="ep-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+      <iframe data-src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+
+    <!-- Vidéo 3 -->
+    <div class="ep-video-card" data-vimeo="1049429498">
+      <img class="ep-video-thumbnail" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=711&fit=crop" alt="Video 3" loading="lazy">
+      <div class="ep-video-overlay">
+        <div class="ep-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+      <iframe data-src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+
+    <!-- Vidéo 4 -->
+    <div class="ep-video-card" data-vimeo="1049429498">
+      <img class="ep-video-thumbnail" src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=711&fit=crop" alt="Video 4" loading="lazy">
+      <div class="ep-video-overlay">
+        <div class="ep-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+      <iframe data-src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="ep-lightbox" id="epLightbox">
+  <button class="ep-lightbox-close" id="epLightboxClose">&times;</button>
+  <div class="ep-lightbox-content">
+    <iframe id="epLightboxIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+(function() {
+  const lightbox = document.getElementById('epLightbox');
+  const lightboxIframe = document.getElementById('epLightboxIframe');
+  const lightboxClose = document.getElementById('epLightboxClose');
+  const cards = document.querySelectorAll('.ep-video-card');
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      const vimeoId = this.getAttribute('data-vimeo');
+      if (!vimeoId) return;
+      const src = 'https://player.vimeo.com/video/' + vimeoId + '?autoplay=1&loop=1&title=0&byline=0&portrait=0';
+      lightboxIframe.src = src;
+      lightbox.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-active');
+    lightboxIframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+})();
+</script>
