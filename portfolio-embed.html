@@ -1,0 +1,632 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700&family=General+Sans:wght@300;400;500;600;700&display=swap');
+
+.ep-portfolio {
+  padding: 100px 40px;
+  background: linear-gradient(180deg, #0a0f1a 0%, #111827 50%, #0a0f1a 100%);
+  font-family: 'General Sans', sans-serif;
+  overflow: hidden;
+}
+
+.ep-portfolio * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Header ─── */
+.ep-portfolio-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.ep-portfolio-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(98, 162, 217, 0.25), 0 2px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: epFadeUp 0.8s ease forwards;
+}
+
+.ep-portfolio-subtitle {
+  font-family: 'General Sans', sans-serif;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: epFadeUp 0.8s ease 0.2s forwards;
+}
+
+/* ─── Grid ─── */
+.ep-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── Card ─── */
+.ep-video-card {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transform: translateY(40px);
+  animation: epFadeUp 0.6s ease forwards;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.5s ease,
+              border-color 0.5s ease;
+}
+
+.ep-video-card:nth-child(1) { animation-delay: 0.3s; }
+.ep-video-card:nth-child(2) { animation-delay: 0.45s; }
+.ep-video-card:nth-child(3) { animation-delay: 0.6s; }
+.ep-video-card:nth-child(4) { animation-delay: 0.75s; }
+
+.ep-video-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(98, 162, 217, 0.1);
+  border-color: rgba(98, 162, 217, 0.2);
+}
+
+/* ─── Thumbnail ─── */
+.ep-video-thumbnail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.4s ease;
+}
+
+.ep-video-card:hover .ep-video-thumbnail {
+  transform: scale(1.05);
+}
+
+/* ─── Overlay with bottom gradient ─── */
+.ep-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    transparent 30%,
+    transparent 45%,
+    rgba(0, 0, 0, 0.55) 75%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 16px;
+  transition: background 0.4s ease;
+  z-index: 2;
+}
+
+.ep-video-card:hover .ep-video-overlay {
+  background: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    transparent 30%,
+    transparent 45%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* ─── Top section: Name + Conversion Icons ─── */
+.ep-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ep-card-name {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #FFFFFF;
+  text-align: left;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  line-height: 1.2;
+}
+
+.ep-card-icons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ep-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.ep-card-icon:hover {
+  background: rgba(98, 162, 217, 0.25);
+  transform: scale(1.1);
+}
+
+.ep-card-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── Play Button (Center) ─── */
+.ep-play-btn-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.ep-play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: auto;
+}
+
+.ep-play-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #ffffff;
+  margin-left: 2px;
+}
+
+.ep-video-card:hover .ep-play-btn {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.12);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ─── Bottom: Performance Badges ─── */
+.ep-card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ep-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(233, 238, 249, 0.9);
+  border-radius: 10px;
+  padding: 6px 12px;
+  width: fit-content;
+  transition: transform 0.3s ease;
+}
+
+.ep-video-card:hover .ep-badge {
+  transform: translateX(4px);
+}
+
+.ep-badge-stat {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #0A0D14;
+  line-height: 1;
+}
+
+.ep-badge-label {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  color: #0A0D14;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.ep-badge-platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(98, 162, 217, 0.15);
+  border: 1px solid rgba(98, 162, 217, 0.3);
+  border-radius: 8px;
+  padding: 5px 10px;
+  width: fit-content;
+}
+
+.ep-badge-platform span {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  color: #62A2D9;
+  letter-spacing: 0.5px;
+}
+
+.ep-badge-platform svg {
+  width: 13px;
+  height: 13px;
+  fill: #62A2D9;
+}
+
+/* ─── Vimeo iframe in card ─── */
+.ep-video-card iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+}
+
+.ep-video-card.is-playing iframe {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ep-video-card.is-playing .ep-video-overlay,
+.ep-video-card.is-playing .ep-play-btn-wrap {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ep-video-card.is-playing .ep-video-thumbnail {
+  opacity: 0;
+}
+
+/* ─── Lightbox ─── */
+.ep-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.ep-lightbox.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ep-lightbox-content {
+  width: 90vw;
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  border-radius: 24px;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.ep-lightbox.is-active .ep-lightbox-content {
+  transform: scale(1);
+}
+
+.ep-lightbox-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.ep-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.ep-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .ep-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 500px;
+  }
+  .ep-portfolio {
+    padding: 60px 20px;
+  }
+  .ep-portfolio-header {
+    margin-bottom: 50px;
+  }
+  .ep-card-name {
+    font-size: 15px;
+  }
+  .ep-card-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .ep-card-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ep-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 360px;
+  }
+  .ep-portfolio-title {
+    letter-spacing: 6px;
+  }
+  .ep-portfolio-subtitle {
+    letter-spacing: 2px;
+  }
+  .ep-play-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .ep-play-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .ep-card-name {
+    font-size: 13px;
+  }
+  .ep-badge {
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  .ep-badge-stat {
+    font-size: 11px;
+  }
+  .ep-badge-label {
+    font-size: 9px;
+  }
+  .ep-video-overlay {
+    padding: 14px 10px;
+  }
+  .ep-card-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+  }
+  .ep-card-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@keyframes epFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<div class="ep-portfolio">
+  <div class="ep-portfolio-header">
+    <h2 class="ep-portfolio-title">Portfolio</h2>
+    <p class="ep-portfolio-subtitle">Des vidéos qui marquent les esprits</p>
+  </div>
+  <div class="ep-videos-grid" id="epGrid"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="ep-lightbox" id="epLightbox">
+  <button class="ep-lightbox-close" id="epLightboxClose">&times;</button>
+  <div class="ep-lightbox-content">
+    <iframe id="epLightboxIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+(function() {
+
+  /* ════════════════════════════════════════════
+     DONNÉES PORTFOLIO — Modifier ici facilement
+     ════════════════════════════════════════════ */
+  var portfolioItems = [
+    {
+      name: "Piccola Italia",
+      vimeoId: "1049429498",
+      thumbnail: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=711&fit=crop",
+      stats: [
+        { value: "+420%", label: "Réservations" }
+      ],
+      platforms: ["TikTok", "Instagram"],
+      conversionIcons: ["calendar", "growth"]
+    },
+    {
+      name: "Le Sharp Barbier",
+      vimeoId: "1049429498",
+      thumbnail: "https://images.unsplash.com/photo-1585747860019-8045cb0772e2?w=400&h=711&fit=crop",
+      stats: [
+        { value: "+280%", label: "Appels" }
+      ],
+      platforms: ["Instagram"],
+      conversionIcons: ["phone", "growth"]
+    },
+    {
+      name: "Au Coeur des Sens",
+      vimeoId: "1049429498",
+      thumbnail: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&h=711&fit=crop",
+      stats: [
+        { value: "+350%", label: "Ventes" }
+      ],
+      platforms: ["TikTok"],
+      conversionIcons: ["cart", "calendar"]
+    },
+    {
+      name: "Easypeak",
+      vimeoId: "1049429498",
+      thumbnail: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=711&fit=crop",
+      stats: [
+        { value: "+600%", label: "Croissance" }
+      ],
+      platforms: ["TikTok", "Instagram"],
+      conversionIcons: ["growth", "phone"]
+    }
+  ];
+
+  /* ════════════════════════════════════════════
+     SVG ICONS — Conversion-oriented
+     ════════════════════════════════════════════ */
+  var iconsSVG = {
+    calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    cart: '<svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>',
+    growth: '<svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+    phone: '<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>'
+  };
+
+  var platformSVG = {
+    TikTok: '<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.11v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.86a8.28 8.28 0 004.76 1.5v-3.4a4.85 4.85 0 01-1-.27z"/></svg>',
+    Instagram: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="#62A2D9" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="#62A2D9" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>'
+  };
+
+  /* ════════════════════════════════════════════
+     BUILD CARDS
+     ════════════════════════════════════════════ */
+  var grid = document.getElementById('epGrid');
+
+  portfolioItems.forEach(function(item) {
+    // Icons HTML
+    var iconsHTML = '';
+    item.conversionIcons.forEach(function(key) {
+      if (iconsSVG[key]) {
+        iconsHTML += '<div class="ep-card-icon">' + iconsSVG[key] + '</div>';
+      }
+    });
+
+    // Stats badges
+    var badgesHTML = '';
+    item.stats.forEach(function(s) {
+      badgesHTML += '<div class="ep-badge">' +
+        '<span class="ep-badge-stat">' + s.value + '</span>' +
+        '<span class="ep-badge-label">' + s.label + '</span>' +
+        '</div>';
+    });
+
+    // Platform badges
+    var platformHTML = '';
+    item.platforms.forEach(function(p) {
+      var icon = platformSVG[p] || '';
+      platformHTML += '<div class="ep-badge-platform">' + icon + '<span>' + p + '</span></div>';
+    });
+
+    var card = document.createElement('div');
+    card.className = 'ep-video-card';
+    card.setAttribute('data-vimeo', item.vimeoId);
+
+    card.innerHTML =
+      '<img class="ep-video-thumbnail" src="' + item.thumbnail + '" alt="' + item.name + '" loading="lazy">' +
+      '<div class="ep-video-overlay">' +
+        '<div class="ep-card-top">' +
+          '<div class="ep-card-name">' + item.name + '</div>' +
+          '<div class="ep-card-icons">' + iconsHTML + '</div>' +
+        '</div>' +
+        '<div class="ep-card-bottom">' +
+          badgesHTML +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap;">' + platformHTML + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ep-play-btn-wrap">' +
+        '<div class="ep-play-btn">' +
+          '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>' +
+        '</div>' +
+      '</div>' +
+      '<iframe data-src="" allow="autoplay; fullscreen" allowfullscreen></iframe>';
+
+    grid.appendChild(card);
+  });
+
+  /* ════════════════════════════════════════════
+     LIGHTBOX
+     ════════════════════════════════════════════ */
+  var lightbox = document.getElementById('epLightbox');
+  var lightboxIframe = document.getElementById('epLightboxIframe');
+  var lightboxClose = document.getElementById('epLightboxClose');
+
+  document.querySelectorAll('.ep-video-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var vimeoId = this.getAttribute('data-vimeo');
+      if (!vimeoId) return;
+      lightboxIframe.src = 'https://player.vimeo.com/video/' + vimeoId + '?autoplay=1&loop=1&title=0&byline=0&portrait=0';
+      lightbox.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-active');
+    lightboxIframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+})();
+</script>
